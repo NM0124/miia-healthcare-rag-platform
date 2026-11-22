@@ -13,8 +13,6 @@ from typing import Dict, List, Optional
 
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
 from google.auth.exceptions import TransportError
 from google.auth.transport import requests as google_requests
 from google.oauth2 import id_token
@@ -232,20 +230,3 @@ def health():
 @app.get("/")
 def root():
     return {"status": "ok", "message": "MIIA Healthcare Intelligence Backend API is running."}
-
-
-# ==============================================================================
-# Serve the built React app (only if frontend/dist exists)
-# ==============================================================================
-
-if config.FRONTEND_DIST.exists():
-    app.mount("/assets", StaticFiles(directory=config.FRONTEND_DIST / "assets"), name="assets")
-
-    @app.get("/{full_path:path}")
-    def spa(full_path: str):
-        if full_path.startswith("api/"):
-            raise HTTPException(status_code=404, detail="API route not found")
-        candidate = (config.FRONTEND_DIST / full_path).resolve()
-        if candidate.is_file() and config.FRONTEND_DIST.resolve() in candidate.parents:
-            return FileResponse(candidate)
-        return FileResponse(config.FRONTEND_DIST / "index.html")

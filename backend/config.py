@@ -11,7 +11,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = Path(os.getenv("DATA_DIR", BASE_DIR / "data"))
 WHO_DIR = DATA_DIR / "who"
 NHM_DIR = DATA_DIR / "nhm"
-FRONTEND_DIST = BASE_DIR / "frontend" / "dist"
 
 
 def _required(name: str) -> str:
