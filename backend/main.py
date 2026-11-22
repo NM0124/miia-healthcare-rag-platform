@@ -228,8 +228,14 @@ def health():
     return {"status": "ok"}
 
 
+# Serve root health/status check
+@app.get("/")
+def root():
+    return {"status": "ok", "message": "MIIA Healthcare Intelligence Backend API is running."}
+
+
 # ==============================================================================
-# Serve the built React app (run `npm run build` in frontend/)
+# Serve the built React app (only if frontend/dist exists)
 # ==============================================================================
 
 if config.FRONTEND_DIST.exists():
