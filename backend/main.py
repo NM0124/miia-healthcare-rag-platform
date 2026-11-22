@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Query, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from google.auth.exceptions import TransportError
@@ -25,6 +26,15 @@ from backend.rag import answer_question, delete_document_chunks, get_vector_stor
 
 logger = logging.getLogger(__name__)
 app = FastAPI(title="MIIA Healthcare Intelligence API", version="2.0.0")
+
+# Enable CORS for external frontend deployment (e.g. Vercel)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # ==============================================================================
