@@ -18,6 +18,13 @@ from backend import config, db
 torch.set_num_threads(1)
 torch.set_grad_enabled(False)
 
+try:
+    import spaces
+    _gpu_decorator = spaces.GPU
+except ImportError:
+    def _gpu_decorator(func=None, **kwargs):
+        return func if func else (lambda f: f)
+
 logger = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = (
@@ -81,6 +88,7 @@ def delete_document_chunks(store: Chroma, document_id: str) -> int:
 
 # --- Dense Retrieval ----------------------------------------------------------
 
+@_gpu_decorator
 def retrieve_dense(
     collection: str,
     query: str,
