@@ -1,5 +1,14 @@
 import os
 import uvicorn
+
+try:
+    import spaces
+    @spaces.GPU
+    def _hf_zerogpu_hook():
+        pass
+except ImportError:
+    pass
+
 from backend.main import app
 
 if __name__ == "__main__":
