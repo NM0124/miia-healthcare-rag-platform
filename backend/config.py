@@ -33,17 +33,12 @@ USER_COLLECTION = os.getenv("USER_DOCS_COLLECTION", "user_documents")       # pe
 # --- Models -----------------------------------------------------------------
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL_NAME", "BAAI/bge-m3")
 EMBEDDING_DEVICE = os.getenv("EMBEDDING_DEVICE", "cpu")
-RERANKER_MODEL = os.getenv("RERANKER_MODEL_NAME", "BAAI/bge-reranker-v2-m3")
-RERANKER_DEVICE = os.getenv("RERANKER_DEVICE", "cpu")
-ENABLE_RERANKER = os.getenv("ENABLE_RERANKER", "false").lower() in ("true", "1", "yes")
 
 # --- Chunking / retrieval ---------------------------------------------------
 CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", 1000))
 CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", 150))
 RETRIEVAL_TOP_K = int(os.getenv("RETRIEVAL_TOP_K", 4))  # per collection
-RRF_K = int(os.getenv("RRF_K", 60))                     # Reciprocal Rank Fusion constant
-RETRIEVAL_MODE = os.getenv("RETRIEVAL_MODE", "dense")  # dense | sparse | hybrid | hybrid_rerank
-BM25_DIR = Path(os.getenv("BM25_DIR", DATA_DIR / "bm25"))
+RETRIEVAL_MODE = "dense"
 
 # --- Supabase (users, chat history, document records) ------------------------
 SUPABASE_URL = os.getenv("SUPABASE_URL", "").strip()
