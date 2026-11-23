@@ -21,6 +21,12 @@ from sentence_transformers import CrossEncoder
 
 from backend import config, db
 
+import torch
+
+# Prevent PyTorch from spawning multi-threaded buffer pools on constrained cloud servers
+torch.set_num_threads(1)
+torch.set_grad_enabled(False)
+
 logger = logging.getLogger(__name__)
 
 SYSTEM_PROMPT = (
@@ -57,6 +63,8 @@ def _embeddings() -> HuggingFaceEmbeddings:
 
 @lru_cache(maxsize=1)
 def _reranker() -> Optional[CrossEncoder]:
+    if not config.ENABLE_RERANKER or config.RERANKER_MODEL.lower() in ("none", "disabled", ""):
+        return None
     try:
         logger.info("Loading cross-encoder reranker %s on %s", config.RERANKER_MODEL, config.RERANKER_DEVICE)
         return CrossEncoder(config.RERANKER_MODEL, device=config.RERANKER_DEVICE)

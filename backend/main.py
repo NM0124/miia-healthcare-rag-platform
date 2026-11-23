@@ -19,7 +19,6 @@ from google.oauth2 import id_token
 from pydantic import BaseModel
 
 from backend import config, db
-from backend.ingestion import index_user_upload
 from backend.rag import answer_question, delete_document_chunks, get_vector_store
 
 logger = logging.getLogger(__name__)
@@ -201,6 +200,7 @@ def upload_document(
     doc_id = uuid.uuid4().hex[:16]
     record = db.add_user_document(doc_id, user["id"], name, _format_size(len(data)), session_id)
     try:
+        from backend.ingestion import index_user_upload
         chunks = index_user_upload(user["id"], doc_id, name, data)
         db.update_user_document(doc_id, "indexed", chunks)
         record.update(status="indexed", chunk_count=chunks)
