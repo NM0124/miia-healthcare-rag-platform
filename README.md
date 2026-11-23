@@ -1,3 +1,13 @@
+---
+title: MIIA Healthcare Intelligence
+emoji: 🏥
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+app_file: app.py
+pinned: false
+---
+
 # MIIA — Healthcare Intelligence RAG Platform
 
 MIIA (Medical Intelligence & Injury Analysis) is a healthcare RAG platform that retrieves relevant information from trusted medical sources before generating responses. It includes document processing and a conversational interface for healthcare-related queries. Key functionalities include medical document ingestion, context-based retrieval, source-backed responses, and persistent chat sessions. AI-assisted injury analysis is also planned as an additional component.
